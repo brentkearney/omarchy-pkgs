@@ -9,7 +9,7 @@
 # AWDL, never the network.
 
 pkgname=brcmfmac-awdl-dkms
-pkgver=0.6.3
+pkgver=0.6.4
 pkgrel=1
 _asahitag=asahi-7.1.13-3
 pkgdesc="AWDL (AirDrop link layer) support for Apple Broadcom Wi-Fi (BCM4378, BCM4387, BCM4388): DKMS module and root helpers"
@@ -21,11 +21,15 @@ license=('GPL-2.0-only')
 # session invoke the one helper that needs root. The sender, airdrop-send.py,
 # draws its /Ask icon with Pillow and packs its /Upload with libarchive;
 # zeroconf and ifaddr are its mDNS browse, used when it runs without --direct.
-depends=('dkms' 'bash' 'python' 'iproute2' 'iputils' 'kmod' 'polkit'
-         'procps-ng' 'util-linux' 'systemd'
+depends=('dkms' 'bash' 'python' 'iproute2' 'iputils'
+         'kmod' 'polkit' 'procps-ng' 'util-linux' 'systemd'
          'python-libarchive-c' 'python-pillow' 'python-zeroconf' 'python-ifaddr')
 makedepends=()        # prepare() patches with patch(1), which base-devel has
 optdepends=('networkmanager: keeps awdl0 unmanaged and settles the Wi-Fi MAC before awdl0 is derived from it'
+            # Naming a peer wakes it with a BLE Continuity advert, so these
+            # are what `send-to-peer --list --names` needs to reach a device
+            # set to Contacts Only. Still optional: without them the lookup
+            # says so and names whatever is already listening.
             'bluez: waking a peer to ask its name, and the opt-in advert'
             'python-dbus: waking a peer to ask its name, and the opt-in advert'
             'python-gobject: waking a peer to ask its name, and the opt-in advert')
@@ -65,7 +69,7 @@ source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz"
         "0012-brcmfmac-gate-the-AWDL-instrumentation-behind-a-modul.patch")
 # The tarball's hash is filled in once its tag is pushed; the patches are
 # hashed here.
-sha256sums=('01c75e3aded9200e19d380f04069e25d009933a982a5ac6594489fdfd9979551'
+sha256sums=('1f6b649814a92ee459e64d9dd59bf6e68740325d5a30ddd82e575988f3b9b8aa'
             'c5550edeb9b74d9e4eb2a0880ee26bc0588de678f671eca397cde37024a52187'
             'a39bf06b5350a49515e71f9c6c94434e0f0600223f9ddfa398a467e81ad4400f'
             '53a0bd6882a919aa79039d3dbd3599eac1c1e946e5479d6a81cdddc4d68eb2db'
